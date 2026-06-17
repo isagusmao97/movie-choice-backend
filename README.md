@@ -49,6 +49,18 @@ pip install -r requirements.txt
 # Configure o ambiente
 cp .env.example .env
 # (edite o .env se quiser. Para dev local funciona como está.)
+
+# para rodar o back-end utilize o comando abaixo antes de rodar o seed
+python app.py
+
+# para criar o catálogo de filmes com as informações dos filmes e as capas
+# em um segundo terminal rode o comando
+python seed_catalogos.py
+
+# se caso for alterado algum dado dentro do json ou no arquivo seed_catalogo.py será preciso apagar os dados do moviechoice.db para gerar um novo com os dados atualizados, para isso o comando abaixo é necessário
+
+# após a exclusão será necessário criar o banco novamente com os comandos anteriores
+del instance/moviechoice.db
 ```
 
 ### 3. Rodar
