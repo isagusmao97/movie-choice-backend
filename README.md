@@ -142,27 +142,3 @@ Erros: `403` se o `membro_id` não pertencer à sala, `410` se sala expirou.
 Resposta: `{"ok": true, "total_votos": N}`.
 Erros: `403` (membro não é da sala), `409` (já votou neste filme), `410` (sala expirou).
 
-## Identidade do usuário
-
-Como o front-end do MovieChoice **não pede senha** (só nome no login), adotamos esta convenção:
-
-- Ao criar sala ou entrar, o servidor devolve um `membro_atual.id` (UUID).
-- O cliente **deve armazenar esse UUID** (em `SharedPreferences` no Flutter) e enviá-lo em todas as ações subsequentes (sugerir filme, votar).
-- Isso evita que outro usuário "assuma" sua identidade só sabendo o nome.
-
-Não é autenticação forte — é o adequado para o escopo de um app de matéria. Se quiser fortalecer no futuro, JWT seria o próximo passo.
-
-## Limitações conhecidas (sendo honesto)
-
-1. **Sem WebSocket.** Membros novos / votos novos só aparecem se o cliente fizer polling (refetch). Para tempo real de verdade, você precisaria de Flask-SocketIO. Decidi não incluir porque foge do escopo de "framework Flask básico".
-2. **Sem autenticação real.** Como descrito acima.
-3. **Sem testes automatizados.** Boa adição para entregar com o projeto: pytest + cliente de teste do Flask.
-4. **Banco em SQLite.** Ok para desenvolvimento e demonstração; para produção real, migrar para Postgres trocando `DATABASE_URL`.
-5. **Sem migrations.** `db.create_all()` cria as tabelas, mas não evolui o schema. Em produção use Flask-Migrate.
-
-## Próximos passos sugeridos
-
-- [ ] Adicionar testes com pytest (cobrir os 6 endpoints + casos de erro).
-- [ ] Endpoint `DELETE /api/salas/<codigo>` para o admin encerrar a sala.
-- [ ] Endpoint que retorna o **filme vencedor** (ordenado por votos).
-- [ ] (Avançado) Flask-SocketIO para notificar membros em tempo real.
